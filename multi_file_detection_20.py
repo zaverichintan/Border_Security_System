@@ -5,10 +5,14 @@ import cv2
 import numpy as np
 from imutils.video import VideoStream
 
-names = ['videos/cm-far3_2018-02-01_15-56.mkv', 'videos/vani-farslow.mkv','videos/cm-near1_2018-02-01_15-56.mkv',\
- 		'videos/cm-farfast2_2018-02-01_15-54.mkv','videos/cm-far3_2018-02-01_15-56.mkv', 'videos/vani-farslow.mkv',\
- 		'videos/cm-near1_2018-02-01_15-56.mkv', 'videos/cm-farfast2_2018-02-01_15-54.mkv'];
+names = ['cm-far3_2018-02-01_15-56.mkv', 'vani-farslow.mkv','cm-near1_2018-02-01_15-56.mkv',\
+ 		'cm-farfast2_2018-02-01_15-54.mkv','cm-far3_2018-02-01_15-56.mkv', 'vani-farslow.mkv',\
+ 		'cm-near1_2018-02-01_15-56.mkv', 'cm-farfast2_2018-02-01_15-54.mkv','cm-far3_2018-02-01_15-56.mkv', 'vani-farslow.mkv','cm-near1_2018-02-01_15-56.mkv',\
+        'cm-farfast2_2018-02-01_15-54.mkv','cm-far3_2018-02-01_15-56.mkv', 'vani-farslow.mkv',\
+        'cm-near1_2018-02-01_15-56.mkv', 'cm-farfast2_2018-02-01_15-54.mkv','cm-far3_2018-02-01_15-56.mkv', 'vani-farslow.mkv','cm-near1_2018-02-01_15-56.mkv',\
+        'cm-farfast2_2018-02-01_15-54.mkv','cm-far3_2018-02-01_15-56.mkv'];
 
+names = names + names
 
 # Define the codec and create VideoWriter object
 fourcc = cv2.VideoWriter_fourcc(*'MJPG')
@@ -16,7 +20,7 @@ fourcc = cv2.VideoWriter_fourcc(*'MJPG')
 # out2 = cv2.VideoWriter('output2.avi',fourcc, 20.0, (480, 1920))
 
 
-cap = [cv2.VideoCapture(i) for i in names]
+cap = [cv2.VideoCapture('videos/'+i) for i in names]
 
 out = [None] * len(names)
 window_titles = [None] * len(names)
@@ -81,17 +85,15 @@ while True:
 
             # show the frame and record if the user presses a key
             numpy_horizontal_concat[i] = np.concatenate((gray[i],thresh[i],frameDelta[i]), axis=1)
-            
-            print(gray[i].shape)
             out[i].write(frames[i])
 
-            # print(numpy_horizontal_concat[i].shape)
-            cv2.imshow(window_titles[i], numpy_horizontal_concat[i]);
+            print(numpy_horizontal_concat[i].shape)
+            # cv2.imshow(window_titles[i], numpy_horizontal_concat[i]);
 
-    if cv2.waitKey(10) & 0xFF == ord('q'):
-       break
+    # if cv2.waitKey(10) & 0xFF == ord('q'):
+       # break
 
-
+print("Process complete")
 for c in cap:
     if c is not None:
         c.release();

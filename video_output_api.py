@@ -1,4 +1,5 @@
-#python video_output.py --video videos/cm-far_2018-02-01_15-54.mkv 
+
+#python video_output_api.py --video videos/cm-far_2018-02-01_15-54.mkv 
 # import the necessary packages
 import argparse
 import datetime
@@ -11,9 +12,12 @@ import os
 import datetime
 import glob
 import imageio
+import requests
+import json
 
 fps = 12
 
+url = 'http://www.bordersec.olbx.in/ci/test_api'
 gif_name = 'outputName'
 
 # construct the argument parser and parse the arguments
@@ -88,6 +92,11 @@ while True:
 		filename1 = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
 		cv2.imwrite("detection_images/detetected"+filename1+".png", frame)
 		os.system("aplay sounds/siren3.wav")
+		files = {'file': open('/home/zaverichintan/Study/final_year_project/file-video-stream/detection_images/detetected'+filename1+'.png', 'rb')}
+		payload = {"device":"gabriel","data_type":"data","zone":1,"camera_no":1}
+		data = json.dumps(payload)
+		r = requests.post(url, files=files, data = payload)
+		print(r.text)
 
 
 
